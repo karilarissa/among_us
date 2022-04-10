@@ -25,7 +25,7 @@ Este é um projeto que simula uma interface do jogo online Among Us.
 | ID | Frame da Tela | 
 |----|---------------|
 |  1 | imagem de fundo  |
-| 2  | ![tela ilustrativa](img/background.jpg) |
+| 2  | ![tela ilustrativa](background.jpg) |
 
 #### Função Principal
 ```js:
