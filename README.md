@@ -1,5 +1,5 @@
-# Projeto Among Us
-Este é um projeto que simula a interface de uma task do jogo Among Us que ganhou fama durante a pandemia.
+# Jogo da Velha
+Simulador do clássico jogo da velha.
 
 ## Tecnologias utilizadas
 - **HTML** : estrutura do site
@@ -17,7 +17,7 @@ Este é um projeto que simula a interface de uma task do jogo Among Us que ganho
 ### disponibilizado em
 [GitHubPage](https://github.com/karilarissa/among_us)
 
-[Vídeo para desenvolvimento do jogo](https://www.youtube.com/watch?v=C3WZrP0zlUk)
+[Vídeo para desenvolvimento do jogo](https://www.youtube.com/watch?v=M258B1b_pMs)
 
 
 ### Prints da tela
@@ -25,15 +25,31 @@ Este é um projeto que simula a interface de uma task do jogo Among Us que ganho
 | ID | Frame da Tela | 
 |----|--------------- |
 |  1 | interface |
-| 2  | ![tela ilustrativa](https://user-images.githubusercontent.com/100212761/162627285-d7f7699e-7ba6-4e5d-925b-85c9217fa6d2.png) |
+| 2  | ![tela ilustrativa](https://user-images.githubusercontent.com/100212761/162634700-ea1d1b7a-5b92-462f-991b-b78221e17a88.png)) |
 
 #### Função Principal
 ```js:
-function generateOrder() {
-    for (let i = 0; i < 5; i++) {
-        let index = Math.floor(Math.random() * (showNum.length - 0)) + 0;
-        order.push(index);
+function escolherQuadrado(id) {
+    if (vencedor !== null) {
+        return;
     }
+
+    var quadrado = document.getElementById(id);
+    if (quadrado.innerHTML !== '-') {
+        return;
+    }
+
+    quadrado.innerHTML = jogador;
+    quadrado.style.color = '#000';
+
+    if (jogador === 'X') {
+        jogador = 'O';
+    } else {
+        jogador = 'X';
+    }
+
+    mudarJogador(jogador);
+    checaVencedor();
 }
 ```
 
