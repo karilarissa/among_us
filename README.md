@@ -1,5 +1,5 @@
 # Projeto Among Us
-Este é um projeto que simula uma interface do jogo online Among Us.
+Este é um projeto que simula a interface de uma task do jogo Among Us que ganhou fama durante a pandemia.
 
 ## Tecnologias utilizadas
 - **HTML** : estrutura do site
@@ -23,9 +23,9 @@ Este é um projeto que simula uma interface do jogo online Among Us.
 ### Prints da tela
 
 | ID | Frame da Tela | 
-|----|---------------|
-|  1 | imagem de fundo  |
-| 2  | ![tela ilustrativa](background.jpg) |
+|----|--------------- |
+|  1 | interface |
+| 2  | ![tela ilustrativa](https://user-images.githubusercontent.com/100212761/162627285-d7f7699e-7ba6-4e5d-925b-85c9217fa6d2.png) |
 
 #### Função Principal
 ```js:
