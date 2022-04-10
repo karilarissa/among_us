@@ -1,206 +1,129 @@
-const btnStart = document.querySelector('.container-start');
-const showNum = document.querySelectorAll('.show-num');
-const wrapNum = document.querySelectorAll('.wrap-num');
+var jogador, vencedor = null;
+var jogadorSelecionado = document.getElementById('jogador-selecionado');
+var vencedorSelecionado = document.getElementById('vencedor-selecionado');
 
-let order = [],
-    waiting = true,
-    counterShowBtn = 0,
-    counterPressedBtn = 0,
-    stage = 1;
+mudarJogador('X');
 
-function generateOrder() {
-    for (let i = 0; i < 5; i++) {
-        let index = Math.floor(Math.random() * (showNum.length - 0)) + 0;
-        order.push(index);
+function escolherQuadrado(id) {
+    if (vencedor !== null) {
+        return;
+    }
+
+    var quadrado = document.getElementById(id);
+    if (quadrado.innerHTML !== '-') {
+        return;
+    }
+
+    quadrado.innerHTML = jogador;
+    quadrado.style.color = '#000';
+
+    if (jogador === 'X') {
+        jogador = 'O';
+    } else {
+        jogador = 'X';
+    }
+
+    mudarJogador(jogador);
+    checaVencedor();
+}
+
+function mudarJogador(valor) {
+    jogador = valor;
+    jogadorSelecionado.innerHTML = jogador;
+}
+
+function checaVencedor() {
+    var quadrado1 = document.getElementById(1);
+    var quadrado2 = document.getElementById(2);
+    var quadrado3 = document.getElementById(3);
+    var quadrado4 = document.getElementById(4);
+    var quadrado5 = document.getElementById(5);
+    var quadrado6 = document.getElementById(6);
+    var quadrado7 = document.getElementById(7);
+    var quadrado8 = document.getElementById(8);
+    var quadrado9 = document.getElementById(9);
+
+    if (checaSequencia(quadrado1, quadrado2, quadrado3)) {
+       
+        mudarCorQuadrado(quadrado1, quadrado2, quadrado3);
+        mudarVencedor(quadrado1);
+        
+        return;
+    }
+
+    if (checaSequencia(quadrado4, quadrado5, quadrado6)) {
+        mudarCorQuadrado(quadrado4, quadrado5, quadrado6);
+        mudarVencedor(quadrado4);
+        return;
+    }
+
+    if (checaSequencia(quadrado7, quadrado8, quadrado9)) {
+        mudarCorQuadrado(quadrado7, quadrado8, quadrado9);
+        mudarVencedor(quadrado7);
+        return;
+    }
+
+    if (checaSequencia(quadrado1, quadrado4, quadrado7)) {
+        mudarCorQuadrado(quadrado1, quadrado4, quadrado7);
+        mudarVencedor(quadrado1);
+        return;
+    }
+
+    if (checaSequencia(quadrado2, quadrado5, quadrado8)) {
+        mudarCorQuadrado(quadrado2, quadrado5, quadrado8);
+        mudarVencedor(quadrado2);
+        return;
+    }
+
+    if (checaSequencia(quadrado3, quadrado6, quadrado9)) {
+        mudarCorQuadrado(quadrado3, quadrado6, quadrado9);
+        mudarVencedor(quadrado3);
+        return;
+    }
+
+    if (checaSequencia(quadrado1, quadrado5, quadrado9)) {
+        mudarCorQuadrado(quadrado1, quadrado5, quadrado9);
+        mudarVencedor(quadrado1);
+        return;
+    }
+
+    if (checaSequencia(quadrado3, quadrado5, quadrado7)) {
+        mudarCorQuadrado(quadrado3, quadrado5, quadrado7);
+        mudarVencedor(quadrado3);
     }
 }
 
-function accessBtn(action) {
-    const num = document.querySelectorAll('.num');
-
-    for (let i = 0; i < num.length; i++) {
-        if (action === 'unlock') num[i].classList.add('num-active');
-        else num[i].classList.remove('num-active');
-    }
+function mudarVencedor(quadrado) {
+    vencedor = quadrado.innerHTML;
+    vencedorSelecionado.innerHTML = vencedor;
 }
 
-function turnIndicatorOnFirstPanel(action, countIndicators) {
-    const indicator = document.querySelectorAll('.fp-i');
-
-    if (action === 'off') countIndicators = indicator.length;
-
-    for (let i = 0; i < countIndicators; i++) {
-        if (action === 'on') indicator[i].classList.add('indicator-active');
-        else indicator[i].classList.remove('indicator-active');
-    }
+function mudarCorQuadrado(quadrado1, quadrado2, quadrado3) {
+    quadrado1.style.background = '#0f0';
+    quadrado2.style.background = '#0f0';
+    quadrado3.style.background = '#0f0';
 }
 
-function turnIndicatorOnSecondPanel(action, countIndicators) {
-    const indicator = document.querySelectorAll('.sp-i');
+function checaSequencia(quadrado1, quadrado2, quadrado3) {
+    var eigual = false;
 
-    if (action === 'off') countIndicators = indicator.length;
-
-    for (let i = 0; i < countIndicators; i++) {
-        if (action === 'on') indicator[i].classList.add('indicator-active');
-        else indicator[i].classList.remove('indicator-active');
+    if (quadrado1.innerHTML !== '-' && quadrado1.innerHTML === quadrado2.innerHTML && quadrado2.innerHTML === quadrado3.innerHTML) {
+        eigual = true;
     }
+
+    return eigual;
 }
 
-function success() {
-    const num = document.querySelectorAll('.num');
+function reiniciar() {
+    vencedor = null;
+    vencedorSelecionado.innerHTML = '';
 
-    setTimeout(() => {
-        for (let i = 0; i < num.length; i++) {
-            num[i].classList.add('num-pressed');
-        }
-    }, 300);
+    for (var i = 1; i <= 9; i++) {
+        var quadrado = document.getElementById(i);
 
-    setTimeout(() => {
-        for (let i = 0; i < num.length; i++) {
-            num[i].classList.remove('num-pressed');
-        }
-    }, 700);
-
-    waiting = true;
+        quadrado.style.background = '#eee';
+        quadrado.style.color = '#eee';
+        quadrado.innerHTML = '-';
+    }
+    mudarJogador('X');
 }
-
-function showOrder() {
-    if (counterShowBtn < stage) {
-        turnIndicatorOnFirstPanel('on', stage);
-
-        let i = order[counterShowBtn];
-
-        showNum[i].classList.add('show-num-active');
-        setTimeout(() => {
-            showNum[i].classList.remove('show-num-active');
-            counterShowBtn++;
-        }, 300);
-
-        setTimeout(() => showOrder(), 500);
-    }
-    else {
-        waiting = false;
-        accessBtn('unlock');
-        return false;
-    }
-}
-
-function completeStage() {
-    if (stage === order.length) {
-        waiting = false;
-        success();
-        setTimeout(() => {
-            accessBtn('lock');
-            turnIndicatorOnFirstPanel('off');
-            turnIndicatorOnSecondPanel('off');
-        }, 700);
-
-        return false;
-    }
-
-    stage++;
-
-    counterShowBtn = 0;
-    counterPressedBtn = 0;
-    waiting = true;
-
-    setTimeout(() => {
-        turnIndicatorOnSecondPanel('off');
-        accessBtn('lock');
-    }, 200)
-
-    setTimeout(() => showOrder(), 1000);
-}
-
-function error(n) {
-    const indicator = document.querySelectorAll('.sp-i');
-    const num = document.querySelectorAll('.num');
-
-    if (n === undefined) n = 0;
-
-    for (let i = 0; i < indicator.length; i++) {
-        if (n % 2 === 0) {
-            indicator[i].classList.remove('sp-i-error-2');
-            indicator[i].classList.add('sp-i-error-1');
-        }
-        else {
-            indicator[i].classList.remove('sp-i-error-1');
-            indicator[i].classList.add('sp-i-error-2');
-        }
-    }
-    for (let i = 0; i < num.length; i++) {
-        if (n % 2 === 0) {
-            num[i].classList.remove('num-error-2');
-            num[i].classList.add('num-error-1');
-        }
-        else {
-            num[i].classList.remove('num-error-1');
-            num[i].classList.add('num-error-2');
-        }
-    }
-
-    if (n === 3) {
-        for (let i = 0; i < indicator.length; i++) {
-            indicator[i].classList.remove('sp-i-error-2');
-        }
-        for (let i = 0; i < num.length; i++) {
-            num[i].classList.remove('num-error-2');
-        }
-
-        accessBtn('lock');
-        startTask();
-
-        return false;
-    }
-
-    n++;
-
-    setTimeout(() => error(n), 300);
-}
-
-function checkingPress(i) {
-    if (i === order[counterPressedBtn]) {
-        counterPressedBtn++;
-
-        turnIndicatorOnSecondPanel('on', counterPressedBtn);
-
-        if (counterPressedBtn === stage) completeStage();
-    }
-    else {
-        counterPressedBtn = 0;
-        waiting = true;
-        error();
-    }
-}
-
-for (let i = 0; i < wrapNum.length; i++) {
-    wrapNum[i].addEventListener('click', () => btnClick(i));
-}
-
-function btnClick(i) {
-    if (!waiting) {
-        let num = wrapNum[i].firstElementChild;
-
-        num.classList.add('num-pressed');
-        setTimeout(() => num.classList.remove('num-pressed'), 200);
-
-        checkingPress(i);
-    }
-}
-
-function startTask() {
-    order = [];
-    waiting = true;
-    counterShowBtn = 0;
-    counterPressedBtn = 0;
-    stage = 1;
-
-    turnIndicatorOnFirstPanel('off');
-    turnIndicatorOnSecondPanel('off');
-    accessBtn('lock');
-
-    generateOrder();
-    showOrder();
-}
-
-btnStart.addEventListener('click', () => startTask());
