@@ -22,9 +22,9 @@ Este é um projeto que simula uma interface do jogo online Among Us.
 
 ### Prints da tela
 
-| ID | Primeira Tela | Segunda Tela |
-|----|---------------|----------------|
-|  1 | imagem de fundo  | loteca preenchida |
+| ID | Frame da Tela | 
+|----|---------------|
+|  1 | imagem de fundo  |
 | 2  | ![tela ilustrativa](img/background.jpg) |
 
 #### Função Principal
